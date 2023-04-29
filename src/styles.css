@@ -136,7 +136,7 @@ h1 {
 }
 /* 
 Main layout, easy way to center the all the contents of the page */
-.container {
+#id {
   max-width: 1500px;
   margin: 0 auto;
 }
