@@ -1,6 +1,6 @@
 function NewFactForm() {
   return (
-    <section className="form-section" hidden>
+    <section className="form-section">
       <form className="fact-form">
         <input
           className="text-box"
