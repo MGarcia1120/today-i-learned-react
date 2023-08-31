@@ -3,19 +3,23 @@ import NewFactForm from "./new-fact-form.js";
 import FactsList from "./facts-list.js";
 import Categories from "./categories";
 import { useState } from "react";
+import { initiaFacts } from "./initial-facts";
 
 function App() {
   const [showForm, setShowForm] = useState(false);
+  const [facts, setFacts] = useState(initiaFacts);
 
   return (
     <>
       <Header setShowForm={setShowForm} showForm={showForm} />
 
-      {showForm ? <NewFactForm /> : null}
+      {showForm ? (
+        <NewFactForm setFacts={setFacts} setShowForm={setShowForm} />
+      ) : null}
 
       <main className="main">
         <Categories />
-        <FactsList />
+        <FactsList facts={facts} />
       </main>
     </>
   );
