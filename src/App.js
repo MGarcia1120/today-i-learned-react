@@ -2,12 +2,19 @@ import "./styles.css";
 import NewFactForm from "./new-fact-form.js";
 import FactsList from "./facts-list.js";
 import Categories from "./categories";
-import { useState } from "react";
-import { initiaFacts } from "./initial-facts";
+import { useEffect, useState } from "react";
+import supabase from "./supabase";
 
 function App() {
   const [showForm, setShowForm] = useState(false);
-  const [facts, setFacts] = useState(initiaFacts);
+  const [facts, setFacts] = useState([]);
+  useEffect(() => {
+    async function getFacts() {
+      const { data: facts, error } = await supabase.from("facts").select("*");
+      setFacts(facts);
+    }
+    getFacts();
+  }, []);
 
   return (
     <>
