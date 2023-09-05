@@ -1,4 +1,5 @@
 import { useState } from "react";
+import supabase from "./supabase";
 
 const CATEGORIES = [
   { name: "technology", color: "#3b82f6" },
@@ -23,7 +24,7 @@ function isValidHttpUrl(string) {
   return url.protocol === "http:" || url.protocol === "https:";
 }
 
-function NewFactForm({ setFacts, setShowForm }) {
+function NewFactForm({ setReload, setShowForm }) {
   const [text, setText] = useState("");
   const [source, setSource] = useState("http://");
   const [category, setCategory] = useState("");
@@ -40,22 +41,40 @@ function NewFactForm({ setFacts, setShowForm }) {
     setCategory("");
   }
 
+  async function createFact(){
+    const { data, error } = await supabase
+  .from('facts')
+  .insert([
+    { id: Math.floor(Math.random() * 10000),
+     created_at: new Date(),
+     text: text ,
+     source: source ,
+     category: category ,
+     voteInteresting: 0 ,
+     voteMindBlowing: 0 ,
+     voteFalse: 0}
+  ]).then(
+    setReload((reload) => !reload)
+  );
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
     if (isFormValid()) {
-      console.log("here");
-      const newFact = {
-        id: Math.floor(Math.random() * 100),
-        text,
-        source,
-        category,
-        votesInteresting: 0,
-        votesMindblowing: 0,
-        votesFalse: 0,
-        createdIn: new Date().getFullYear(),
-      };
-      setFacts((facts) => [newFact, ...facts]);
+      // const newFact = {
+      //   id: Math.floor(Math.random() * 10000),
+      //   text,
+      //   source,
+      //   category,
+      //   votesInteresting: 0,
+      //   votesMindblowing: 0,
+      //   votesFalse: 0,
+      //   createdIn: new Date().getFullYear(),
+      // };
 
+      
+      createFact();
+      
       clearForm();
 
       setShowForm(false);
