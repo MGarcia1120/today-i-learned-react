@@ -12,10 +12,18 @@ function App() {
   const [facts, setFacts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [reload, setReload] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState('all')
+
   useEffect(() => {
     async function getFacts() {
       setIsLoading(true)
-      const { data: facts, error } = await supabase.from("facts").select("*");
+      let query = supabase.from("facts").select('*')
+
+      if(currentCategory !== 'all'){
+        query = query.eq("category", currentCategory)
+      }
+
+      const { data: facts, error } = await query;
      if(facts){
       setFacts(facts);
       setIsLoading(false)
@@ -23,8 +31,11 @@ function App() {
       errorMessage = error.message
      }
     }
+
+    
     getFacts();
-  }, [reload]);
+
+  }, [reload, currentCategory]);
 
   return (
     <>
@@ -35,8 +46,8 @@ function App() {
       ) : null}
 
       <main className="main">
-        <Categories />
-        {isLoading ? (<LoadingComponent/>) : (<FactsList facts={facts} />)}
+        <Categories setCurrentCategory={setCurrentCategory}/>
+        {isLoading ? (<LoadingComponent/>) : (<FactsList facts={facts} currentCategory={currentCategory}/>)}
         
       </main>
     </>

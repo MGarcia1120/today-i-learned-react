@@ -1,3 +1,4 @@
+
 const CATEGORIES = [
   { name: "technology", color: "#3b82f6" },
   { name: "science", color: "#16a34a" },
@@ -9,27 +10,28 @@ const CATEGORIES = [
   { name: "news", color: "#8b5cf6" },
 ];
 
-export function Categories() {
+export function Categories({setCurrentCategory}) {
+  let secondarySetCurrentCategory = setCurrentCategory
   return (
     <aside>
       <ul>
         <li className="category">
-          <button className="btn btn-all-categories">All</button>
+          <button className="btn btn-all-categories" onClick={()=> setCurrentCategory('all')}>All</button>
         </li>
 
         {CATEGORIES.map((category) => (
-          <Category key={category.name} category={category} />
+          <Category key={category.name} category={category} secondarySetCurrentCategory={secondarySetCurrentCategory}/>
         ))}
       </ul>
     </aside>
   );
 }
 
-function Category({ category }) {
+function Category({category, secondarySetCurrentCategory}) {
   return (
     <li className="category">
       <button
-        className="btn-cat btn btn-categories"
+        className="btn-cat btn btn-categories" onClick={()=> secondarySetCurrentCategory(category.name)}
         style={{ backgroundColor: category.color }}
       >
         {category.name}
