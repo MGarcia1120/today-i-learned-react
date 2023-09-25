@@ -1,4 +1,5 @@
-import { useState } from "react";
+import supabase from "./supabase";
+
 
 const CATEGORIES = [
   { name: "technology", color: "#3b82f6" },
@@ -13,6 +14,11 @@ const CATEGORIES = [
 
 
 function FactsList({ facts }) {
+
+  if(facts.length === 0){
+    return(<p>There are no facts to display, please add some</p>)
+  }
+  else
   return (
     <ul id="list">
       {facts.map((fact) => (
@@ -24,7 +30,24 @@ function FactsList({ facts }) {
 
 //can destructure inside function arg, if not the default is function Fact(props){}
 function Fact({ fact }) {
+  
   let category = CATEGORIES.find((x) => x.name === fact.category)
+  async function updateVote(e, fact){
+    console.log(e)
+  console.log(fact.id)
+   let propName = e.target.id
+   let dataObj = {}
+   dataObj[propName] = fact[propName] + 1
+   console.log(dataObj)
+ 
+  const {data : updatedFact, error} = await supabase
+   .from('facts')
+   .update(dataObj)
+   .eq('id', fact.id).select()
+   console.log(updatedFact)
+
+ }
+ 
   
   return (
     <li className="fact">
@@ -38,9 +61,9 @@ function Fact({ fact }) {
         {fact.category}
       </span>
       <div className="btn-group">
-        <button>👍 {fact.votesInteresting}</button>
-        <button>😧 {fact.votesMindblowing}</button>
-        <button>⛔ {fact.votesFalse}</button>
+        <button id="voteInteresting" onClick={(event) => updateVote(event, fact)}>👍 {fact.voteInteresting}</button>
+        <button id="voteMindBlowing">😧 {fact.voteMindBlowing}</button>
+        <button id="voteFalse">⛔ {fact.voteFalse}</button>
       </div>
     </li>
   );
