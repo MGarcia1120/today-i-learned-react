@@ -11,6 +11,12 @@ body {
   padding: 48px 64px;
 }
 
+.disputed{
+  color: red;
+  font-weight: 600;
+  margin-right: 10px;
+}
+
 form {
   background-color: #57534e;
   margin-bottom: 40px;
@@ -138,10 +144,11 @@ h1 {
   display: grid;
   grid-template-columns: 250px 1fr;
   gap: 60px;
+  height: calc(100vh - 68px - 68px);
 }
 /* 
 Main layout, easy way to center the all the contents of the page */
-#id {
+.root {
   max-width: 1500px;
   margin: 0 auto;
 }
@@ -284,4 +291,23 @@ better option than fixed/float right to get buttons to stay on the right side */
     height: 48px;
     width: 48px;
   }
+}
+
+
+
+
+#list{
+  height: 80vh;
+  overflow-y:scroll;
+}
+
+::-webkit-scrollbar {
+  height: 12px;
+  width: 12px;
+  background: #292524;
+}
+
+::-webkit-scrollbar-thumb {
+  background: black;
+  -webkit-border-radius: 1ex;
 }

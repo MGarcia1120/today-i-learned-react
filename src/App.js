@@ -40,6 +40,7 @@ function App() {
 
   return (
     <>
+      <div className="root">
       <Header setShowForm={setShowForm} showForm={showForm} />
 
       {showForm ? (
@@ -51,6 +52,7 @@ function App() {
         {isLoading ? (<LoadingComponent/>) : (<FactsList setFacts={setFacts} facts={facts} currentCategory={currentCategory}/>)}
         
       </main>
+      </div>
     </>
   );
 }

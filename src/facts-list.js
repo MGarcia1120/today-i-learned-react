@@ -31,6 +31,7 @@ function FactsList({ facts, setFacts }) {
 
 //can destructure inside function arg, if not the default is function Fact(props){}
 function Fact({ setFacts, fact }) {
+  const isDisputed = fact.voteInteresting + fact.voteMindBlowing < fact.voteFalse
   const [isUpdating, setIsUpdating] = useState(false)
 
 
@@ -50,30 +51,12 @@ function Fact({ setFacts, fact }) {
   }
   
   let category = CATEGORIES.find((x) => x.name === fact.category)
-  // async function updateVote(e, fact){
-  //   console.log(e)
-  // console.log(fact.id)
-  //  let propName = e.target.id
-  //  let dataObj = {}
-  //  dataObj[propName] = fact[propName] + 1
-  //  console.log(dataObj)
- 
-  // const {data : updatedFact, error} = await supabase
-  //  .from('facts')
-  //  .update(dataObj)
-  //  .eq('id', fact.id).select()
-  //  console.log(updatedFact)
 
-  //  if(!error){
-  //   setFacts((facts) => facts.map((f) => f.id === fact.id ? updatedFact: f ))
-  //  }
-
-//  }
- 
   
   return (
     <li className="fact">
       <p className="letter">
+        {isDisputed ? <span className="disputed">[⛔ DISPUTED] </span> : null}
         {fact.text}
         <a className="source" href={fact.source}>
           (Source)
