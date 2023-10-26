@@ -106,8 +106,13 @@ h1 {
 }
 
 .btn-group button:hover {
+  background-color: #44403c;
+}
+
+.btn-group button:disabled {
   background-color: #292524;
 }
+
 
 .btn-large {
   font-size: 20px;

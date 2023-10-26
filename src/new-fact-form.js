@@ -24,7 +24,7 @@ function isValidHttpUrl(string) {
   return url.protocol === "http:" || url.protocol === "https:";
 }
 
-function NewFactForm({ setReload, setShowForm }) {
+function NewFactForm({ setIsUploading, setShowForm, setFacts, isUploading }) {
   const [text, setText] = useState("");
   const [source, setSource] = useState("http://");
   const [category, setCategory] = useState("");
@@ -45,34 +45,23 @@ function NewFactForm({ setReload, setShowForm }) {
     const { data, error } = await supabase
   .from('facts')
   .insert([
-    { id: Math.floor(Math.random() * 10000),
-     created_at: new Date(),
-     text: text ,
-     source: source ,
-     category: category ,
-     voteInteresting: 0 ,
-     voteMindBlowing: 0 ,
-     voteFalse: 0}
-  ]).then(
-    setReload((reload) => !reload)
-  );
+    {  
+     text ,
+     source ,
+     category ,}
+  ]).select()
+
+  if(!error){
+    setFacts((facts) => [data[0], ...facts])
   }
+  setIsUploading(false)      
+  }
+
 
   function handleSubmit(event) {
     event.preventDefault();
     if (isFormValid()) {
-      // const newFact = {
-      //   id: Math.floor(Math.random() * 10000),
-      //   text,
-      //   source,
-      //   category,
-      //   votesInteresting: 0,
-      //   votesMindblowing: 0,
-      //   votesFalse: 0,
-      //   createdIn: new Date().getFullYear(),
-      // };
-
-      
+      setIsUploading(true)      
       createFact();
       
       clearForm();
@@ -113,12 +102,18 @@ function NewFactForm({ setReload, setShowForm }) {
             </option>
           ))}
         </select>
-        <button className="post btn btn-large" type="submit">
+        <button className="post btn btn-large" type="submit" disabled={isUploading}>
           Post
         </button>
       </form>
     </section>
   );
+
+
+
+
+
 }
+
 
 export default NewFactForm;

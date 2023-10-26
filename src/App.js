@@ -10,6 +10,7 @@ function App() {
   let errorMessage
   const [showForm, setShowForm] = useState(false);
   const [facts, setFacts] = useState([]);
+  const [isUploading, setIsUploading] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [currentCategory, setCurrentCategory] = useState('all')
@@ -42,12 +43,12 @@ function App() {
       <Header setShowForm={setShowForm} showForm={showForm} />
 
       {showForm ? (
-        <NewFactForm setReload={setReload} setShowForm={setShowForm} />
+        <NewFactForm isUploading={isUploading} setIsUploading={setIsUploading} setFacts={setFacts} setReload={setReload} setShowForm={setShowForm} />
       ) : null}
 
       <main className="main">
         <Categories setCurrentCategory={setCurrentCategory}/>
-        {isLoading ? (<LoadingComponent/>) : (<FactsList facts={facts} currentCategory={currentCategory}/>)}
+        {isLoading ? (<LoadingComponent/>) : (<FactsList setFacts={setFacts} facts={facts} currentCategory={currentCategory}/>)}
         
       </main>
     </>
